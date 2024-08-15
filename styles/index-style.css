@@ -1,0 +1,40 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.container{
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+}
+.container img{
+    position: absolute;
+    transition: 0.3s;
+    border-radius: 8px;
+    scale: 1;
+}
+.container img:hover {
+    scale: 1.15;
+    box-shadow: 0 0 60px 0 rgba(128, 128, 128, 0.8),
+ 	  0 0 40px 10px rgba(108, 108, 108, 0.54);
+}
+.title {
+   text-align: center;
+   margin-top: 30%;
+   margin-bottom: 10%;
+}
+.title p {
+    animation: scroll 1s infinite;
+    color: #363636;
+}
+@keyframes scroll {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 1;
+    }
+}
