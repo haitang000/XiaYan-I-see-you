@@ -40,3 +40,9 @@
         opacity: 1;
     }
 }
+@keyframes FadeInUp {
+    from {
+        opacity: 0;
+        
+    }
+}
