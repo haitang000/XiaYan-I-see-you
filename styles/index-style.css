@@ -16,8 +16,8 @@
 }
 .container img:hover {
     scale: 1.15;
-    box-shadow: 0 0 60px 0 rgba(128, 128, 128, 0.8),
- 	  0 0 40px 10px rgba(108, 108, 108, 0.54);
+    box-shadow: 0 0 60px 0 rgba(110, 110, 110, 0.8),
+ 	  0 0 40px 10px rgba(164, 164, 164, 0.54);
     z-index: 2;
 }
 .title {
