@@ -20,6 +20,10 @@
  	  0 0 40px 10px rgba(164, 164, 164, 0.54);
     z-index: 2;
 }
+.container img:active {
+    scale: 1.9;
+    z-index: 2;
+}
 .title {
    text-align: center;
    margin-top: 30%;
@@ -44,5 +48,27 @@
     from {
         opacity: 0;
         
+    }
+}
+
+#cursor {
+    position: fixed;
+    width: 18px;
+    height: 18px;
+    background: #000000;
+    border-radius: 25px;
+    opacity: 0.25;
+    z-index: 10086;
+    pointer-events: none;
+    transition: 0.2s ease-in-out;
+    transition-property: background, opacity, transform;
+
+    &.hidden {
+        opacity: 0;
+    }
+
+    &.active {
+        opacity: 0.5;
+        transform: scale(0.5);
     }
 }
