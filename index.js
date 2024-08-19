@@ -5,7 +5,6 @@ let img_width=220; //每张图片的固定宽度
 // 加入图片元素
 function createImgs(){
     for(let i=1;i<=27;i++){
-        // 生成图片的src路径（图片名为：1~15.jpg）
         let src='static/'+i+'.jpg';
         let img=document.createElement('img');
         img.src=src;
@@ -14,7 +13,6 @@ function createImgs(){
         img.onload=setPositions;
         // 将图片添加到容器中
         container.appendChild(img);
-        console.log('[✅Done] 成功生成瀑布流');
     }
 }
 
