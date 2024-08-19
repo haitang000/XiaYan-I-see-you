@@ -90,3 +90,36 @@
         transform: scale(0.5);
     }
 }
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #313131;
+    }
+    h1 {
+        color: #ffffff;
+    }
+    .title p {
+        color: #ffffff;
+    }
+    #cursor {
+        position: fixed;
+        width: 18px;
+        height: 18px;
+        background: #ffffff;
+        border-radius: 25px;
+        opacity: 0.25;
+        z-index: 10086;
+        pointer-events: none;
+        transition: 0.2s ease-in-out;
+        transition-property: background, opacity, transform;
+    
+        &.hidden {
+            opacity: 0;
+        }
+    
+        &.active {
+            opacity: 0.5;
+            transform: scale(0.5);
+        }
+    }
+}
