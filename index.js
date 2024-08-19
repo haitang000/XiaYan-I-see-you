@@ -4,7 +4,7 @@ let img_width=220; //每张图片的固定宽度
 
 // 加入图片元素
 function createImgs(){
-    for(let i=1;i<=27;i++){
+    for(let i=1;i<=39;i++){
         let src='static/'+i+'.jpg';
         let img=document.createElement('img');
         img.src=src;
