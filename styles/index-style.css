@@ -33,6 +33,13 @@
     animation: scroll 1s infinite;
     color: #363636;
 }
+footer {
+	background: #dbdbdb;
+	color: #313131;
+	text-align: center;
+	padding: 10px 0;
+}
+
 @keyframes scroll {
     0% {
         opacity: 1;
@@ -134,5 +141,11 @@
             opacity: 0.5;
             transform: scale(0.5);
         }
+    }
+    footer {
+        background: #3a3a3a;
+        color: #898989;
+        text-align: center;
+        padding: 10px 0;
     }
 }
