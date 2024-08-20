@@ -34,10 +34,26 @@
     color: #363636;
 }
 footer {
-	background: #dbdbdb;
-	color: #313131;
+	background: #f9f9f9;
+	color: #8d8d8d;
 	text-align: center;
 	padding: 10px 0;
+}
+
+.footer-links {
+    position: relative;
+    color: #515151;
+    transition: 0.3s ease;
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background-color: #ffffff00;
+    margin-top: 16px;
+}
+
+.footer-links:hover {
+    color: #767676;
+    background-color: #d7d7d7;
 }
 
 @keyframes scroll {
@@ -148,4 +164,20 @@ footer {
         text-align: center;
         padding: 10px 0;
     }
+    .footer-links {
+        position: relative;
+        color: #bdbdbd;
+        transition: 0.3s ease;
+        text-decoration: none;
+        padding: 4px 8px;
+        border-radius: 999px;
+        background-color: #ffffff00;
+        margin-top: 16px;
+    }
+    
+    .footer-links:hover {
+        color: #ffffff;
+        background-color: #535353;
+    }
+    
 }
