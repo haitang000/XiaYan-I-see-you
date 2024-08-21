@@ -85,7 +85,7 @@ let day = time.getDate();
 
 
 window.onload = function(){
-    if (month == 8 && day == 21) {
+    if (month == 12 && day == 5) {
         Titleh1.innerText = "🎉 今天是夏彦的生日 12.5 🎉"; //标题
         setTimeout(function() {
             Titleh1.innerText = "🎉 生日快乐，夏侦探 🎉";
