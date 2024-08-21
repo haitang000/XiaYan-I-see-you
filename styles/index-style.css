@@ -29,8 +29,11 @@
    margin-top: 30%;
    margin-bottom: 10%;
 }
+.title h1 {
+    animation: TitleSwitch 4s ease;
+}
 .title p {
-    animation: scroll 1s infinite;
+    animation: scroll 2s infinite;
     color: #363636;
 }
 footer {
@@ -62,6 +65,27 @@ footer {
     }
     50% {
         opacity: 0.6;
+    }
+    51% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes TitleSwitch {
+    0% {
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    82% {
+        opacity: 0;
+    }
+    95% {
+        opacity: 1;
     }
     100% {
         opacity: 1;

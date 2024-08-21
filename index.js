@@ -82,10 +82,23 @@ let time = new Date(); // 确保time变量是一个Date对象
 let month = time.getMonth() + 1; // 月份从1开始
 let day = time.getDate();
 
-if (month == 12 && day == 5) {
-    Titleh1.innerText = "🎉 今天是夏彦的生日 12.5 🎉"; //标题
-    Titlep.innerText = "祝  ☀比冬日暖阳还要耀眼的你☀  快乐安康 万事顺遂" //描述
-}
+
+
+window.onload = function(){
+    if (month == 8 && day == 21) {
+        Titleh1.innerText = "🎉 今天是夏彦的生日 12.5 🎉"; //标题
+        setTimeout(function() {
+            Titleh1.innerText = "🎉 生日快乐，夏侦探 🎉";
+        }, 3000);
+        Titlep.innerText = "祝  ☀比冬日暖阳还要耀眼的你☀  快乐安康 万事顺遂" //描述
+    }else{
+        Titleh1.innerText = "「与你重逢，是最美好的事」";
+            setTimeout(function() {
+                Titleh1.innerText = "你好！欢迎来到夏彦照片墙";
+            }, 3000);
+    }
+};
+
 function siteTime(){
     window.setTimeout("siteTime()", 1000);
     var seconds = 1000;
@@ -100,8 +113,8 @@ function siteTime(){
     var todayHour = today.getHours();
     var todayMinute = today.getMinutes();
     var todaySecond = today.getSeconds();
-    // Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
-    var t1 = Date.UTC(2024,08,15,13,19,17); //北京时间2017-09-16 00:00:00创建网站的时间
+
+    var t1 = Date.UTC(2024,08,15,13,19,17);
     var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
     var diff = t2-t1;
     var diffYears = Math.floor(diff/years);
