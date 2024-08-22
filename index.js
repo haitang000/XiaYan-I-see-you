@@ -2,6 +2,14 @@
 const container=document.querySelector('.container');
 let img_width=220; //每张图片的固定宽度
 
+if (
+    navigator.userAgent.match(/Mobi/i) ||
+    navigator.userAgent.match(/Android/i) ||
+    navigator.userAgent.match(/iPhone/i)
+  ) {
+    let img_width=170; //移动端适配
+  }
+
 // 加入图片元素
 function createImgs(){
     for(let i=1;i<=48;i++){
