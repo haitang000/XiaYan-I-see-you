@@ -29,11 +29,11 @@
    margin-top: 30%;
    margin-bottom: 10%;
 }
-.title h1 {
-    animation: TitleSwitch 4s ease;
+#titleh1, #titlep {
+    opacity: 0;
+    transition: opacity 2s ease-in-out; /* 延长过渡时间到2秒，添加平滑效果 */
 }
 .title p {
-    animation: scroll 2s infinite;
     color: #363636;
 }
 footer {
@@ -59,38 +59,6 @@ footer {
     background-color: #d7d7d7;
 }
 
-@keyframes scroll {
-    0% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.6;
-    }
-    51% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-@keyframes TitleSwitch {
-    0% {
-        opacity: 1;
-    }
-    70% {
-        opacity: 1;
-    }
-    82% {
-        opacity: 0;
-    }
-    95% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 1;
-    }
-}
 @media screen and (max-width: 1600px) {
     .container img:hover {
         scale: 1.1;
