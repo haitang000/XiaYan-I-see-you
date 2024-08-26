@@ -1,14 +1,16 @@
 // 容器
 const container=document.querySelector('.container');
-let img_width=220; //每张图片的固定宽度
-
 if (
     navigator.userAgent.match(/Mobi/i) ||
     navigator.userAgent.match(/Android/i) ||
     navigator.userAgent.match(/iPhone/i)
   ) {
-    let img_width=170; //移动端适配
-  }
+    let img_width=100; //移动端适配
+}
+    
+let img_width=200; //每张图片的固定宽度
+
+
 
 // 加入图片元素
 function createImgs(){
@@ -89,8 +91,6 @@ let Titlep = document.querySelector('#title-p');
 let time = new Date(); // 确保time变量是一个Date对象
 let month = time.getMonth() + 1; // 月份从1开始
 let day = time.getDate();
-
-
 
 /*window.onload = function(){
     if (month == 12 && day == 5) {
