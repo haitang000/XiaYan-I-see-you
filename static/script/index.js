@@ -15,8 +15,8 @@ let img_width=200; //每张图片的固定宽度
 
 // 加入图片元素
 function createImgs(){
-    for(let i=1;i<=48;i++){
-        let src='image/'+i+'.jpg';
+    for(let i=1;i<=32;i++){
+        let src='image/'+i+'.JPG';
         let img=document.createElement('img');
         img.src=src;
         img.width=img_width;
@@ -108,7 +108,7 @@ let day = time.getDate();
     }
 };*/
 
-if (month == 12 && day == 5) {
+/*if (month == 12 && day == 5) {
     Titleh1.innerText = "🎉 今天是夏彦的生日 12.5 🎉";
     Titlep.innerText = "祝 ☀比冬日暖阳还要耀眼的你☀ 快乐安康 万事顺遂";
     
@@ -126,8 +126,8 @@ if (month == 12 && day == 5) {
             Titleh1.style.opacity = 1; // 再次淡入
         }, 2000); // 等待淡出完成
     }, 3000);
-
-} else {
+*/
+/*} else {
     // 如果不是12月5日，显示默认信息
     Titleh1.innerText = "「与你重逢，是最美好的事」";
     setTimeout(() => {
@@ -142,7 +142,7 @@ if (month == 12 && day == 5) {
             Titleh1.style.opacity = 1; // 触发淡入效果
         }, 2000); // 等待2秒，确保淡出动画完成
     }, 5000); // 5秒后开始切换文本，包含初始的3秒等待时间
-}
+}*/
 
 // 定义一个函数，用于计算网站运行时间
 function siteTime(){
@@ -164,7 +164,7 @@ function siteTime(){
     var todaySecond = today.getSeconds();
 
     // 定义一个时间点，这里以2024年8月15日13时19分17秒为例
-    var t1 = Date.UTC(2024,08,15,13,19,17);
+    var t1 = Date.UTC(2024,09,07,13,19,17);
     // 获取当前时间的时间戳
     var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
     // 计算两个时间点之间的差值
