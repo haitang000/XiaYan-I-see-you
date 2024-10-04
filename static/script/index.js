@@ -1,16 +1,19 @@
 
 // 容器
 const container=document.querySelector('.container');
-let img_width=200; //每张图片的固定宽度
+let img_width = 200; //每张图片的固定宽度
 
-/*if (
+if (
     navigator.userAgent.match(/Mobi/i) ||
     navigator.userAgent.match(/Android/i) ||
     navigator.userAgent.match(/iPhone/i)
   ) {
-    let img_width=100; //移动端适配
-}*/
-
+    console.log('[✅Done] 检测到当前使用设备为移动端设备');
+    img_width=160; //移动端适配
+}else{
+    console.log('[✅Done] 检测到当前使用设备为PC端设备');
+    img_width=200; //pc端适配
+}
 
 
 // 加入图片元素
