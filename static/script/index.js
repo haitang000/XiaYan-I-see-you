@@ -92,6 +92,8 @@ window.onresize=function(){
 
 let Titleh1 = document.querySelector('#title-h1');
 let Titlep = document.querySelector('#title-p');
+Titleh1.style.transition = "opacity 1s ease-in-out"; // 添加淡入淡出效果
+Titlep.style.transition = "opacity 1s ease-in-out"; // 添加淡入淡出效果
 let time = new Date(); // 确保time变量是一个Date对象
 let month = time.getMonth() + 1; // 月份从1开始
 let day = time.getDate();
@@ -127,7 +129,7 @@ if (month == 12 && day == 5) {
         setTimeout(function() {
             Titleh1.innerText = "🎉 生日快乐，夏侦探 🎉";
             Titleh1.style.opacity = 1; // 再次淡入
-        }, 2000); // 等待淡出完成
+        }, 1000); // 等待淡出完成
     }, 3000);
 
 } else {
@@ -143,8 +145,8 @@ if (month == 12 && day == 5) {
         setTimeout(function() { // 等待淡出结束
             Titleh1.innerText = "你好！欢迎来到夏彦照片墙";
             Titleh1.style.opacity = 1; // 触发淡入效果
-        }, 2000); // 等待2秒，确保淡出动画完成
-    }, 5000); // 5秒后开始切换文本，包含初始的3秒等待时间
+        }, 1000); // 等待2秒，确保淡出动画完成
+    }, 3000); // 5秒后开始切换文本，包含初始的3秒等待时间
 }
 
 // 定义一个函数，用于计算网站运行时间
