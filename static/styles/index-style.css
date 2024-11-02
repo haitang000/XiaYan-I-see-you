@@ -36,6 +36,10 @@
 .title p {
     color: #363636;
 }
+#source-p {
+    color: #898989;
+    margin-bottom: 5rem;
+}
 footer {
 	background: #f9f9f9;
 	color: #8d8d8d;
@@ -128,6 +132,9 @@ footer {
     }
     .title p {
         color: #ffffff;
+    }
+    #source-p {
+        color: #adadad;
     }
     #cursor {
         position: fixed;

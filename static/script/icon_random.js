@@ -28,6 +28,12 @@ window.onload = function() {
         'image/icon/Thinking.png',
         'image/icon/PlayWithPhone.png'
     ]);
+
+    randomIcon('source-icon', [
+        'image/icon/Study.png',
+        'image/icon/Thinking.png',
+        'image/icon/PlayWithPhone.png'
+    ]);
 };
 
 // 随机选择一个图标
