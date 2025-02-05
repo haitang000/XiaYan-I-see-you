@@ -20,9 +20,16 @@ var $container = document.getElementById("container");
         }
     }
      
-    function moveMiss(miss){
-        $container.style.left = miss + $container.offsetLeft + "px";
-    }
+// 在moveMiss函数中增加边界检测
+function moveMiss(miss){
+    const maxLeft = container.scrollWidth - container.clientWidth;
+    let newLeft = miss + $container.offsetLeft;
+    
+    // 限制滚动范围
+    newLeft = Math.max(-maxLeft, Math.min(0, newLeft));
+    
+    $container.style.left = newLeft + "px";
+}
      
     window.onmouseup = function(e){
         if(isDown){
