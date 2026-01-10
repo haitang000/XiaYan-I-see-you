@@ -1,0 +1,72 @@
+/* Lightbox styles */
+.lightbox {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 9999;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: hidden;
+    /* Disable scroll */
+    /* Start transparent for transition */
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease;
+
+    /* Flex layout for centering */
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox.open {
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Modal Content (image) */
+.lightbox-content {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    /* Remove absolute positioning and transform centering as we use flex now */
+    border-radius: 8px;
+    /* Will be controlled by JS for FLIP animation */
+    /* Ensure transform origin is center for accurate scaling */
+    transform-origin: center center;
+    will-change: transform;
+}
+
+
+/* The Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    z-index: 10000;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+    .lightbox-content {
+        width: 95%;
+    }
+}
