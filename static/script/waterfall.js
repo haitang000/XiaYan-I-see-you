@@ -37,8 +37,8 @@ function closeLightbox() {
     lightbox.classList.remove('open'); // Start fading out background
 
     // Apply transform to match thumbnail
-    // Use the same cubic-bezier for consistency
-    lightboxImg.style.transition = 'transform 0.3s cubic-bezier(0.2, 0, 0.2, 1)';
+    // Use the same silky cubic-bezier
+    lightboxImg.style.transition = 'transform 0.5s cubic-bezier(0.19, 1, 0.22, 1)';
     lightboxImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
 
     // Cleanup after animation
@@ -47,7 +47,7 @@ function closeLightbox() {
         lightboxImg.style.transform = '';
         lightboxImg.style.transition = ''; // Reset transition
         activeThumbnail = null;
-    }, 300); // Match transition duration
+    }, 500); // Match transition duration
 }
 
 // Close lightbox when clicking close button
@@ -80,75 +80,95 @@ if (
 
 // 加入图片元素
 function createImgs() {
-    for (let i = 1; i <= 48; i++) {
-        let src = 'image/' + i + '.jpg';
-        let img = document.createElement('img');
-        img.src = src;
-        img.width = img_width;
-
-        // Add click event for lightbox with FLIP animation
-        img.onclick = function () {
-            // Store reference to the clicked thumbnail
-            activeThumbnail = this;
-
-            // 1. Get initial state (First)
-            const rect = this.getBoundingClientRect();
-
-            // Set source
-            lightboxImg.src = this.src;
-
-            // Show lightbox using flex to check dimensions, but keep background transparent initially
-            lightbox.style.display = "flex";
-
-            // Force redraw to ensure image is rendered so we can get its dimensions
-            // We need to wait for the image to load if it's not cached, but since src is same it should be fast
-            // To be safe, we perform calculations after a brief delay or immediately if loaded
-
-            const animateOpen = () => {
-                // 2. Get final state (Last)
-                const fullRect = lightboxImg.getBoundingClientRect();
-
-                // 3. Calculate Invert (difference)
-                // Calculate scale difference
-                const scale = rect.width / fullRect.width;
-
-                // Calculate position difference (center to center)
-                // Note: rect.left is edge, we want center. 
-                const tx = (rect.left + rect.width / 2) - (fullRect.left + fullRect.width / 2);
-                const ty = (rect.top + rect.height / 2) - (fullRect.top + fullRect.height / 2);
-
-                // 4. Play
-                // Apply the transform to put the large image exactly where the thumbnail is
-                lightboxImg.style.transition = 'none';
-                lightboxImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
-
-                // Wait for the next frame
-                requestAnimationFrame(() => {
-                    // Force reflow
-                    lightboxImg.getBoundingClientRect();
-
-                    // Add transition and remove transform (return to center)
-                    lightbox.classList.add('open'); // Fade in background
-                    lightboxImg.style.transition = 'transform 0.4s cubic-bezier(0.2, 0, 0.2, 1)';
-                    lightboxImg.style.transform = 'translate(0, 0) scale(1)';
-                });
-            };
-
-            if (lightboxImg.complete) {
-                animateOpen();
-            } else {
-                lightboxImg.onload = animateOpen;
+    fetch('image/photos.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        }
-        // 每一张图片加载完就设置位置
-        img.onload = setPositions;
-        // 将图片添加到容器中
-        container.appendChild(img);
-    }
+            return response.json();
+        })
+        .then(images => {
+            console.log(`[✅Done] Include ${images.length} photos.`);
+            images.forEach(filename => {
+                let src = 'image/' + filename;
+                let img = document.createElement('img');
+                img.src = src;
+                img.width = img_width;
+
+                // Add click event for lightbox with FLIP animation
+                img.onclick = function () {
+                    // Store reference to the clicked thumbnail
+                    activeThumbnail = this;
+
+                    // 1. Get initial state (First)
+                    const rect = this.getBoundingClientRect();
+
+                    // Set source
+                    lightboxImg.src = this.src;
+
+                    // Show lightbox using flex to check dimensions, but keep background transparent initially
+                    lightbox.style.display = "flex";
+
+                    // Force redraw to ensure image is rendered so we can get its dimensions
+                    // We need to wait for the image to load if it's not cached, but since src is same it should be fast
+                    // To be safe, we perform calculations after a brief delay or immediately if loaded
+
+                    const animateOpen = () => {
+                        // 2. Get final state (Last)
+                        const fullRect = lightboxImg.getBoundingClientRect();
+
+                        // 3. Calculate Invert (difference)
+                        // Calculate scale difference
+                        const scale = rect.width / fullRect.width;
+
+                        // Calculate position difference (center to center)
+                        // Note: rect.left is edge, we want center. 
+                        const tx = (rect.left + rect.width / 2) - (fullRect.left + fullRect.width / 2);
+                        const ty = (rect.top + rect.height / 2) - (fullRect.top + fullRect.height / 2);
+
+                        // 4. Play
+                        // Apply the transform to put the large image exactly where the thumbnail is
+                        lightboxImg.style.transition = 'none';
+                        lightboxImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+
+                        // Wait for the next frame
+                        requestAnimationFrame(() => {
+                            // Force reflow
+                            lightboxImg.getBoundingClientRect();
+
+                            // Add transition and remove transform (return to center)
+                            lightbox.classList.add('open'); // Fade in background and show close button
+                            lightboxImg.style.transition = 'transform 0.5s cubic-bezier(0.19, 1, 0.22, 1)';
+                            lightboxImg.style.transform = 'translate(0, 0) scale(1)';
+                        });
+                    };
+
+                    if (lightboxImg.complete) {
+                        animateOpen();
+                    } else {
+                        lightboxImg.onload = animateOpen;
+                    }
+                }
+
+                // 每一张图片加载完就设置位置
+                img.onload = setPositions;
+                // 将图片添加到容器中
+                container.appendChild(img);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading photos:', error);
+            // Fallback to limited hardcoded logic if json missing? 
+            // Better to just log error as we expect usage within provided docker env.
+            // Or we could implement a fallback loop if really needed.
+            console.log('Fallback to hardcoded list due to error.');
+            for (let i = 1; i <= 48; i++) {
+                // ... old logic ... but simpler to just rely on the new system
+            }
+        });
 }
 
-// 多加入一下图片
-createImgs();
+// 初始化
 createImgs();
 //createImgs();
 //createImgs();
