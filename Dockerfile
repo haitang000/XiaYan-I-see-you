@@ -1,8 +1,10 @@
-# Container image that runs your code
-FROM alpine:3.10
+FROM nginx:alpine
 
-# Copies your code file from your action repository to the filesystem path `/` of the container
-COPY entrypoint.sh /entrypoint.sh
+# Copy custom nginx config
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Code file to execute when the docker container starts up (`entrypoint.sh`)
-ENTRYPOINT ["/entrypoint.sh"]
+# Copy static files to the html directory
+COPY static /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
