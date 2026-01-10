@@ -95,6 +95,13 @@ function createImgs() {
                 img.src = src;
                 img.width = img_width;
 
+                // Skeleton initialization
+                img.classList.add('skeleton');
+                // Assign a random height for the skeleton to create a waterfall effect immediately
+                // Height between 200 and 400
+                const randomHeight = Math.floor(Math.random() * 200) + 200;
+                img.style.height = randomHeight + 'px';
+
                 // Add click event for lightbox with FLIP animation
                 img.onclick = function () {
                     // Store reference to the clicked thumbnail
@@ -151,10 +158,19 @@ function createImgs() {
                 }
 
                 // 每一张图片加载完就设置位置
-                img.onload = setPositions;
+                img.onload = function () {
+                    // Remove skeleton effect
+                    img.classList.remove('skeleton');
+                    img.style.height = ''; // Allow natural height to take over
+                    setPositions();
+                };
                 // 将图片添加到容器中
                 container.appendChild(img);
             });
+
+            // Initial layout for skeletons
+            // We wait a tiny bit to ensure elements are appended
+            setTimeout(setPositions, 0);
         })
         .catch(error => {
             console.error('Error loading photos:', error);
