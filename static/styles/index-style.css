@@ -50,14 +50,14 @@ html {
 }
 
 .container img:hover {
-    scale: 1.15;
+    scale: 1.05;
     box-shadow: 0 0 60px 0 rgba(110, 110, 110, 0.8),
         0 0 40px 10px rgba(164, 164, 164, 0.54);
     z-index: 2;
 }
 
 .container img:active {
-    scale: 1.9;
+    scale: 0.9;
     z-index: 2;
 }
 
@@ -136,35 +136,35 @@ footer {
     }
 
     .container img:active {
-        scale: 1.5;
+        scale: 0.9;
         z-index: 2;
     }
 }
 
 @media screen and (max-width: 1200px) {
     .container img:hover {
-        scale: 1.05;
+        scale: 0.9;
         box-shadow: 0 0 60px 0 rgba(110, 110, 110, 0.8),
             0 0 40px 10px rgba(164, 164, 164, 0.54);
         z-index: 2;
     }
 
     .container img:active {
-        scale: 1.5;
+        scale: 0.9;
         z-index: 2;
     }
 }
 
 @media screen and (max-width: 600px) {
     .container img:hover {
-        scale: 1.5;
+        scale: 0.9;
         box-shadow: 0 0 60px 0 rgba(110, 110, 110, 0.8),
             0 0 40px 10px rgba(164, 164, 164, 0.54);
         z-index: 2;
     }
 
     .container img:active {
-        scale: 1.5;
+        scale: 0.9;
         z-index: 2;
     }
 }

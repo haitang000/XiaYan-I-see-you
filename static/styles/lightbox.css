@@ -59,13 +59,13 @@
 
     /* Animation initial state */
     opacity: 0;
-    transform: rotate(90deg) scale(0.5);
+    transform: scale(0.5);
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .lightbox.open .close {
     opacity: 1;
-    transform: rotate(0) scale(1);
+    transform: scale(1);
     transition-delay: 0.1s;
     /* Show slightly after image starts */
 }

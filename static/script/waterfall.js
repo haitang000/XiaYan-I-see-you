@@ -37,14 +37,16 @@ function closeLightbox() {
     lightbox.classList.remove('open'); // Start fading out background
 
     // Apply transform to match thumbnail
-    // Use the same silky cubic-bezier
-    lightboxImg.style.transition = 'transform 0.5s cubic-bezier(0.19, 1, 0.22, 1)';
+    // Use the same silky cubic-bezier, add opacity fade out
+    lightboxImg.style.transition = 'transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s ease';
     lightboxImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+    lightboxImg.style.opacity = '0';
 
     // Cleanup after animation
     setTimeout(() => {
         lightbox.style.display = "none";
         lightboxImg.style.transform = '';
+        lightboxImg.style.opacity = ''; // Reset opacity
         lightboxImg.style.transition = ''; // Reset transition
         activeThumbnail = null;
     }, 500); // Match transition duration
@@ -137,6 +139,7 @@ function createImgs() {
                         // Apply the transform to put the large image exactly where the thumbnail is
                         lightboxImg.style.transition = 'none';
                         lightboxImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+                        lightboxImg.style.opacity = '0'; // Start with 0 opacity
 
                         // Wait for the next frame
                         requestAnimationFrame(() => {
@@ -145,8 +148,9 @@ function createImgs() {
 
                             // Add transition and remove transform (return to center)
                             lightbox.classList.add('open'); // Fade in background and show close button
-                            lightboxImg.style.transition = 'transform 0.5s cubic-bezier(0.19, 1, 0.22, 1)';
+                            lightboxImg.style.transition = 'transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s ease';
                             lightboxImg.style.transform = 'translate(0, 0) scale(1)';
+                            lightboxImg.style.opacity = '1';
                         });
                     };
 
