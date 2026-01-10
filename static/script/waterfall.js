@@ -7,6 +7,16 @@ const lightboxImg = document.getElementById("lightbox-img");
 const closeBtn = document.getElementsByClassName("close")[0];
 let activeThumbnail = null;
 
+// Utility: Debounce function
+function debounce(func, wait) {
+    let timeout;
+    return function () {
+        const context = this, args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+}
+
 // Close lightbox function
 function closeLightbox() {
     if (!activeThumbnail) {
@@ -65,6 +75,13 @@ if (lightbox) {
         }
     }
 }
+
+// Close lightbox on Escape key
+document.addEventListener('keydown', function (event) {
+    if (event.key === "Escape" && lightbox.style.display !== "none") {
+        closeLightbox();
+    }
+});
 let img_width = 200; //每张图片的固定宽度
 
 if (
@@ -166,7 +183,8 @@ function createImgs() {
                     // Remove skeleton effect
                     img.classList.remove('skeleton');
                     img.style.height = ''; // Allow natural height to take over
-                    setPositions();
+                    // Use debounced setPositions to avoid thrashing
+                    debouncedSetPositions();
                 };
                 // 将图片添加到容器中
                 container.appendChild(img);
@@ -174,7 +192,8 @@ function createImgs() {
 
             // Initial layout for skeletons
             // We wait a tiny bit to ensure elements are appended
-            setTimeout(setPositions, 0);
+            // Use immediate call for first paint
+            setPositions();
         })
         .catch(error => {
             console.error('Error loading photos:', error);
@@ -236,13 +255,11 @@ function setPositions() {
 }
 
 // window.onload=setPositions;
-// 定时器
-let timer = null;
+// Debounced version of setPositions for resize and loads
+const debouncedSetPositions = debounce(setPositions, 100);
+
 // 窗口尺寸变动后，重新排列
 window.onresize = function () {
-    if (timer) {
-        clearTimeout(timer);
-    }
-    timer = setTimeout(setPositions, 100);
-    console.log('[✅Done] 窗口尺寸变动,照片已重新排列');
+    debouncedSetPositions();
+    console.log('[✅Done] 窗口尺寸变动,照片已重新排列 (Debounced)');
 }
