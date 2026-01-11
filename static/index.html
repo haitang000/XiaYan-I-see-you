@@ -7,6 +7,22 @@
     <meta name="Keywords" content="夏彦,夏彦照片墙,夏彦美图,夏彦图片,夏彦照片,夏彦卡面,夏彦I see you,xyicu,LukePearce,Luke,TOT,TearOfThemis">
     <meta name="description" content="夏彦I see you❤ - 一个整理夏彦美图的网站">
 
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://xiayan.icu/">
+    <meta property="og:title" content="夏彦 I see you ❤">
+    <meta property="og:description" content="夏彦I see you❤ - 一个整理夏彦美图的网站">
+    <meta property="og:image" content="https://xiayan.icu/image/icon/logo.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://xiayan.icu/">
+    <meta property="twitter:title" content="夏彦 I see you ❤">
+    <meta property="twitter:description" content="夏彦I see you❤ - 一个整理夏彦美图的网站">
+    <meta property="twitter:image" content="https://xiayan.icu/image/icon/logo.jpg">
+
+    <link rel="canonical" href="https://xiayan.icu/">
+
     <!-- Performance: Preconnect to CDNs -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +34,10 @@
     <title>夏彦 I see you ❤</title>
     <link rel="stylesheet" href="styles/index-style.css">
     <link rel="stylesheet" href="styles/skeleton.css">
-    <link rel="stylesheet" href="styles/lightbox.css">
+    <link rel="stylesheet" href="styles/lightbox.css" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="styles/lightbox.css">
+    </noscript>
     <link rel="shortcut icon" href="image/icon/logo.jpg">
 </head>
 
@@ -27,7 +46,7 @@
         <h1 id="title-h1">「与你重逢，是最美好的事」</h1>
         <p id="title-p">👇 向下滑以欣赏照片 👇</p>
     </div>
-    <div class="container" id="container"></div>
+    <main class="container" id="container"></main>
     <footer>
         <p id="sitetime">本站已运行-年-天-小时-分钟-秒</p>
         <div class="footer-links-contianer">
@@ -48,7 +67,6 @@
 <script src="script/lenis_init.js"></script>
 <script src="script/birthday.js"></script>
 <script src="script/waterfall.js"></script>
-<script src="script/title.js"></script>
 <script src="script/sitetime.js"></script>
 <script src="script/scroll.js"></script>
 <script src="script/cursor.js"></script>
