@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://xiayan.haitang000.top/sitemap.xml

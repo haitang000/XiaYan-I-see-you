@@ -111,7 +111,6 @@ function createImgs() {
             images.forEach(filename => {
                 let src = 'image/' + filename;
                 let img = document.createElement('img');
-                img.src = src;
                 img.width = img_width;
 
                 // Skeleton initialization
@@ -129,42 +128,29 @@ function createImgs() {
                     // 1. Get initial state (First)
                     const rect = this.getBoundingClientRect();
 
-                    // Set source
-                    lightboxImg.src = this.src;
+                    // Set source - using current src which should be loaded
+                    lightboxImg.src = this.dataset.src || this.src;
 
                     // Show lightbox using flex to check dimensions, but keep background transparent initially
                     lightbox.style.display = "flex";
-
-                    // Force redraw to ensure image is rendered so we can get its dimensions
-                    // We need to wait for the image to load if it's not cached, but since src is same it should be fast
-                    // To be safe, we perform calculations after a brief delay or immediately if loaded
 
                     const animateOpen = () => {
                         // 2. Get final state (Last)
                         const fullRect = lightboxImg.getBoundingClientRect();
 
                         // 3. Calculate Invert (difference)
-                        // Calculate scale difference
                         const scale = rect.width / fullRect.width;
-
-                        // Calculate position difference (center to center)
-                        // Note: rect.left is edge, we want center. 
                         const tx = (rect.left + rect.width / 2) - (fullRect.left + fullRect.width / 2);
                         const ty = (rect.top + rect.height / 2) - (fullRect.top + fullRect.height / 2);
 
                         // 4. Play
-                        // Apply the transform to put the large image exactly where the thumbnail is
                         lightboxImg.style.transition = 'none';
                         lightboxImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
-                        lightboxImg.style.opacity = '0'; // Start with 0 opacity
+                        lightboxImg.style.opacity = '0';
 
-                        // Wait for the next frame
                         requestAnimationFrame(() => {
-                            // Force reflow
                             lightboxImg.getBoundingClientRect();
-
-                            // Add transition and remove transform (return to center)
-                            lightbox.classList.add('open'); // Fade in background and show close button
+                            lightbox.classList.add('open');
                             lightboxImg.style.transition = 'transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s ease';
                             lightboxImg.style.transform = 'translate(0, 0) scale(1)';
                             lightboxImg.style.opacity = '1';
@@ -178,14 +164,36 @@ function createImgs() {
                     }
                 }
 
-                // 每一张图片加载完就设置位置
+                // Lazy Load Setup
+                img.dataset.src = src;
+
+                // IntersectionObserver callback
+                const observerCallback = (entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const target = entry.target;
+                            target.src = target.dataset.src;
+                            observer.unobserve(target);
+                        }
+                    });
+                };
+
+                // Create observer (singleton logic optimization possible, but per-image is fine for now)
+                const observer = new IntersectionObserver(observerCallback, {
+                    rootMargin: '200px 0px', // Preload 200px before appearing
+                    threshold: 0.01
+                });
+
                 img.onload = function () {
                     // Remove skeleton effect
                     img.classList.remove('skeleton');
-                    img.style.height = ''; // Allow natural height to take over
-                    // Use debounced setPositions to avoid thrashing
+                    img.style.height = ''; // Allow natural height
+                    // Use debounced setPositions
                     debouncedSetPositions();
                 };
+
+                // Start observing
+                observer.observe(img);
                 // 将图片添加到容器中
                 container.appendChild(img);
             });
