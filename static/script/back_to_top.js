@@ -2,56 +2,36 @@
 document.addEventListener('DOMContentLoaded', function () {
     const backToTopBtn = document.createElement('button');
     backToTopBtn.id = 'back-to-top';
-    backToTopBtn.innerHTML = '↑';
+    // Using a sleek SVG arrow
+    backToTopBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 15l-6-6-6 6"/>
+        </svg>
+    `;
     backToTopBtn.title = 'Back to Top';
-    backToTopBtn.style.display = 'none'; // Hidden by default
     document.body.appendChild(backToTopBtn);
 
-    // CSS for the button is injected here or should be in CSS file. 
-    // For cleanliness, let's inject a style block specifically for this or assume it's in CSS.
-    // Let's add inline styles for simplicity and self-containment in this JS, 
-    // but better to move to CSS.
-    Object.assign(backToTopBtn.style, {
-        position: 'fixed',
-        bottom: '20px',
-        right: '20px',
-        zIndex: '999',
-        border: 'none',
-        outline: 'none',
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        color: 'white',
-        cursor: 'pointer',
-        padding: '10px 15px',
-        borderRadius: '50%',
-        fontSize: '18px',
-        transition: 'opacity 0.3s, transform 0.3s',
-        opacity: '0.7',
-        backdropFilter: 'blur(5px)'
-    });
+    // Initial check in case page is refreshed while scrolled
+    checkScroll();
 
-    // Dark mode handled by transparency, but can check prefers-color-scheme if needed.
+    window.addEventListener('scroll', checkScroll);
 
-    backToTopBtn.onmouseover = function () {
-        this.style.opacity = '1';
-        this.style.transform = 'translateY(-3px)';
-    };
-    backToTopBtn.onmouseout = function () {
-        this.style.opacity = '0.7';
-        this.style.transform = 'translateY(0)';
-    };
-
-    window.onscroll = function () {
+    function checkScroll() {
         if (window.scrollY > 300) {
-            backToTopBtn.style.display = 'block';
+            backToTopBtn.classList.add('visible');
         } else {
-            backToTopBtn.style.display = 'none';
+            backToTopBtn.classList.remove('visible');
         }
-    };
+    }
 
-    backToTopBtn.onclick = function () {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    };
+    backToTopBtn.addEventListener('click', function () {
+        if (window.lenis) {
+            window.lenis.scrollTo(0);
+        } else {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    });
 });

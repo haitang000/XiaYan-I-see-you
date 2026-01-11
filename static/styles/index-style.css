@@ -28,6 +28,30 @@ body {
 
 html {
     user-select: none;
+    background-color: #f5f7fa;
+    /* Match light mode body start gradient */
+}
+
+/* Ensure Lenis works well */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
 }
 
 * {
@@ -172,29 +196,79 @@ footer {
 
 #cursor {
     position: fixed;
-    width: 18px;
-    height: 18px;
-    background: #000000;
-    border-radius: 25px;
-    opacity: 0.25;
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border-radius: 50%;
+    opacity: 1;
     z-index: 10086;
     pointer-events: none;
-    transition: 0.2s ease-in-out;
-    transition-property: background, opacity, transform;
+    transition: opacity 0.2s ease, transform 0.1s ease-out;
+    mix-blend-mode: exclusion;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
 
     &.hidden {
         opacity: 0;
     }
 
     &.active {
-        opacity: 0.5;
-        transform: scale(0.5);
+        transform: scale(0.8);
     }
+}
+
+/* Back to Top Button */
+#back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 999;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+    color: #2d3436;
+}
+
+#back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+#back-to-top:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+#back-to-top svg {
+    transition: transform 0.3s ease;
+}
+
+#back-to-top:hover svg {
+    transform: translateY(-3px);
 }
 
 @media (prefers-color-scheme: dark) {
     body {
         background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #1e1e1e;
+        /* Match dark mode bg */
     }
 
     ::-webkit-scrollbar-thumb {
@@ -220,10 +294,6 @@ footer {
         color: #b2bec3;
     }
 
-    #cursor {
-        background: #ffffff;
-    }
-
     footer {
         background: rgba(30, 30, 30, 0.8);
         border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -236,5 +306,18 @@ footer {
     .footer-links:hover {
         color: #ffffff;
         background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Back to Top Dark Mode */
+    #back-to-top {
+        background: rgba(30, 30, 30, 0.8);
+        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        color: #f1f2f6;
+    }
+
+    #back-to-top:hover {
+        background: rgba(30, 30, 30, 0.95);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
     }
 }
