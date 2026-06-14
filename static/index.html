@@ -29,7 +29,18 @@
     <link rel="preconnect" href="https://unpkg.com">
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- [性能优化] Google Fonts 改为非阻塞异步加载
+         原来：<link rel="stylesheet" href="..."> 会阻塞渲染，延迟 FCP/LCP
+         现在：media="print" 使其初始不阻塞，onload 后切换为 all 正常生效
+         noscript 保留同步回退，确保禁用 JS 时字体仍可加载 -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" as="style" onload="this.rel='stylesheet'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- [性能优化] 预加载首屏必需的关键 JS（lenis），让浏览器提前发起请求
+         此 hint 不阻塞 HTML 解析，仅提升下载优先级 -->
+    <link rel="preload" href="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js" as="script">
 
     <title>夏彦 I see you ❤</title>
     <link rel="stylesheet" href="styles/index-style.css">
@@ -71,3 +82,4 @@
 <script src="script/scroll.js"></script>
 <script src="script/cursor.js"></script>
 <script src="script/back_to_top.js"></script>
+</html>

@@ -11,10 +11,22 @@ document.addEventListener('DOMContentLoaded', function () {
     backToTopBtn.title = 'Back to Top';
     document.body.appendChild(backToTopBtn);
 
+    // [性能优化] 对 scroll 事件进行节流（throttle），限制每 100ms 最多执行一次
+    // 原来：每次滚动事件都触发 checkScroll，高频滚动时每秒可触发数十次 DOM 操作
+    // 现在：节流后最多每 100ms 执行一次，大幅减少不必要的 classList 操作
+    let scrollThrottleTimer = null;
+    function throttledCheckScroll() {
+        if (scrollThrottleTimer !== null) return;
+        scrollThrottleTimer = setTimeout(() => {
+            checkScroll();
+            scrollThrottleTimer = null;
+        }, 100);
+    }
+
     // Initial check in case page is refreshed while scrolled
     checkScroll();
 
-    window.addEventListener('scroll', checkScroll);
+    window.addEventListener('scroll', throttledCheckScroll, { passive: true });
 
     function checkScroll() {
         if (window.scrollY > 300) {

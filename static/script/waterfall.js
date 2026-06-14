@@ -82,6 +82,7 @@ document.addEventListener('keydown', function (event) {
         closeLightbox();
     }
 });
+
 let img_width = 200; //每张图片的固定宽度
 
 if (
@@ -96,6 +97,21 @@ if (
     img_width = 200; //pc端适配
 }
 
+// [性能优化] 共享单一 IntersectionObserver 实例，替代每张图片各自创建一个
+// 原来：每张图片 new IntersectionObserver() → 48+ 个实例，内存压力大
+// 现在：所有图片共用一个 observer，回调内按 entry.target 分别处理
+const sharedObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const target = entry.target;
+            target.src = target.dataset.src;
+            observer.unobserve(target);
+        }
+    });
+}, {
+    rootMargin: '200px 0px', // 提前 200px 开始加载
+    threshold: 0.01
+});
 
 // 加入图片元素
 function createImgs() {
@@ -167,23 +183,6 @@ function createImgs() {
                 // Lazy Load Setup
                 img.dataset.src = src;
 
-                // IntersectionObserver callback
-                const observerCallback = (entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const target = entry.target;
-                            target.src = target.dataset.src;
-                            observer.unobserve(target);
-                        }
-                    });
-                };
-
-                // Create observer (singleton logic optimization possible, but per-image is fine for now)
-                const observer = new IntersectionObserver(observerCallback, {
-                    rootMargin: '200px 0px', // Preload 200px before appearing
-                    threshold: 0.01
-                });
-
                 img.onload = function () {
                     // Remove skeleton effect
                     img.classList.remove('skeleton');
@@ -192,33 +191,23 @@ function createImgs() {
                     debouncedSetPositions();
                 };
 
-                // Start observing
-                observer.observe(img);
+                // [性能优化] 使用共享的 sharedObserver，而非每张图片各自 new 一个
+                sharedObserver.observe(img);
                 // 将图片添加到容器中
                 container.appendChild(img);
             });
 
             // Initial layout for skeletons
-            // We wait a tiny bit to ensure elements are appended
-            // Use immediate call for first paint
             setPositions();
         })
         .catch(error => {
             console.error('Error loading photos:', error);
-            // Fallback to limited hardcoded logic if json missing? 
-            // Better to just log error as we expect usage within provided docker env.
-            // Or we could implement a fallback loop if really needed.
             console.log('Fallback to hardcoded list due to error.');
-            for (let i = 1; i <= 48; i++) {
-                // ... old logic ... but simpler to just rely on the new system
-            }
         });
 }
 
 // 初始化
 createImgs();
-//createImgs();
-//createImgs();
 
 // 计算一共有多少列，以及每一列之间的间隙
 function cal() {
@@ -236,7 +225,24 @@ function cal() {
     };
 }
 
-// 设置每张图片的位置
+// [性能优化] 用手写循环替代 Math.min/max(...array) 展开运算符
+// 原因：当 next_tops 数组很大时，spread 展开会超出调用栈限制，并且每次都重建参数列表
+function arrayMin(arr) {
+    let min = arr[0];
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] < min) min = arr[i];
+    }
+    return min;
+}
+
+function arrayMax(arr) {
+    let max = arr[0];
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] > max) max = arr[i];
+    }
+    return max;
+}
+
 // 设置每张图片的位置
 function setPositions() {
     // 获取列数和间隙
@@ -250,8 +256,8 @@ function setPositions() {
 
     // Batch WRITE: Apply styles
     imgs.forEach((img, i) => {
-        // 找到next_tops中的最小值作为当前图片的纵坐标
-        let min_top = Math.min(...next_tops);
+        // [性能优化] 用 arrayMin() 替换 Math.min(...next_tops)
+        let min_top = arrayMin(next_tops);
         img.style.top = min_top + 'px';
 
         // 重新设置数组这一项的下一个top值
@@ -265,13 +271,12 @@ function setPositions() {
         img.style.left = left + 'px';
     });
 
-    // 得到next_tops中的最大值
-    let max = Math.max(...next_tops);
+    // [性能优化] 用 arrayMax() 替换 Math.max(...next_tops)
+    let max = arrayMax(next_tops);
     // 设置容器的高度
     container.style.height = max + 'px';
 }
 
-// window.onload=setPositions;
 // Debounced version of setPositions for resize and loads
 const debouncedSetPositions = debounce(setPositions, 100);
 

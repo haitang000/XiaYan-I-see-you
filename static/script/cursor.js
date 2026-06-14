@@ -2,14 +2,9 @@ let mainCursor;
 
 Math.lerp = (a, b, n) => (1 - n) * a + n * b;
 
-const getStyle = (el, attr) => {
-    try {
-        return window.getComputedStyle ? window.getComputedStyle(el)[attr] : el.currentStyle[attr];
-    } catch (e) {
-        console.error(e);
-    }
-    return false;
-};
+// [性能优化] 删除原来的 getStyle()：该函数仅用于遍历 DOM 收集 pointer 元素
+// 收集结果存入 this.pt 但从未被读取，属于无用代码，同时避免了首次加载时
+// 遍历所有 DOM 元素并触发大量 getComputedStyle 调用的昂贵操作。
 
 const cursorInit = () => {
     mainCursor = new Cursor();
@@ -22,11 +17,15 @@ class Cursor {
             curr: null,
             prev: null,
         };
-        this.pt = [];
         this.create();
         this.init();
         this.render();
+        // [性能优化] 初始化时调用一次 checkthemmode，而不是每帧都调用
         this.checkthemmode();
+        // 监听系统主题变化事件，响应式更新光标颜色
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            this.checkthemmode();
+        });
     }
 
     move(left, top) {
@@ -43,10 +42,9 @@ class Cursor {
             document.body.append(this.cursor);
         }
 
-        var el = document.getElementsByTagName("*");
-        for (let i = 0; i < el.length; i++) {
-            if (getStyle(el[i], "cursor") == "pointer") this.pt.push(el[i].outerHTML);
-        }
+        // [性能优化] 删除原来遍历所有 DOM 元素收集 pointer 元素的逻辑
+        // 原代码：for (let i = 0; i < el.length; i++) { getComputedStyle(el[i])... }
+        // this.pt 数组收集后从未被使用，纯属无用开销
 
         // Create style element only once
         if (!this.scr) {
@@ -54,18 +52,16 @@ class Cursor {
             document.body.appendChild(this.scr);
         }
 
-        // Cache initial cursor fill color
-        this.cursorFill = 'black';
+        // Cache current cursor fill color
+        this.cursorFill = null;
     }
 
     refresh() {
-        // No need to recreate style element, just update classes
         this.cursor.classList.remove("active");
         this.pos = {
             curr: null,
             prev: null,
         };
-        this.pt = [];
 
         this.create();
         this.init();
@@ -73,8 +69,7 @@ class Cursor {
     }
 
     init() {
-        // Register event handlers only once
-        this.cursorFill = null
+        this.cursorFill = null;
         document.onmousemove = (e) => {
             this.pos.curr == null && this.move(e.clientX - 8, e.clientY - 8);
             this.pos.curr = {
@@ -97,7 +92,9 @@ class Cursor {
         } else {
             this.pos.prev = this.pos.curr;
         }
-        this.checkthemmode();
+        // [性能优化] 删除每帧调用的 this.checkthemmode()
+        // 原来：每帧都读取 localStorage + window.matchMedia → 不必要的帧内开销
+        // 现在：仅在构造时调用一次 + 监听 matchMedia change 事件响应主题切换
         requestAnimationFrame(() => this.render());
     }
 
