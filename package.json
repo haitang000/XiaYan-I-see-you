@@ -1,0 +1,13 @@
+{
+  "name": "xiayan-i-see-you",
+  "version": "1.0.0",
+  "description": "A photo wall for XiaYan. Supports Docker and Vercel deployment.",
+  "scripts": {
+    "build": "node scripts/generate_photos_list.js",
+    "generate": "node scripts/generate_photos_list.js"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "license": "GPL-3.0"
+}

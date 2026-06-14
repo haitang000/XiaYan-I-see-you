@@ -21,6 +21,21 @@
 
 如果想要通过 Docker 部署, 您需要将本项目下载下来, 之后在项目目录下运行`docker-compose up -d --build`即可
 
+## 通过 Vercel 部署
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/haitang000/XiaYan-I-see-you)
+
+您也可以手动部署：
+
+1. 将本项目 Fork 到自己的 GitHub 账号
+2. 登录 [Vercel](https://vercel.com)，点击 **Add New Project**，导入您 Fork 的仓库
+3. Vercel 会自动识别以下配置（来自 `vercel.json` 和 `package.json`）：
+   - **Build Command**：`npm run build`
+   - **Output Directory**：`static`
+4. 点击 **Deploy** 即可，每次推送代码后 Vercel 会自动重新部署
+
+> **注意**：Vercel 部署时，`npm run build` 会自动扫描 `static/image/` 目录并生成 `photos.json`，无需手动操作。
+
 ## 将图片修改为自己喜欢的角色
 
 如果想要将图片修改为自己喜欢的角色，可以在`/static`目录中将图片替换，无需重命名, 正常运行命令后会自动排列照片。如果想要修改网站 Icon，可以在`/static`目录中将`logo.jpg`更换为自己喜欢的图片

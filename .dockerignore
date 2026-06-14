@@ -6,3 +6,8 @@ docker-compose.yml
 README.md
 LICENSE
 action.yml
+# Vercel & Node.js (not needed inside the Docker image)
+vercel.json
+package.json
+package-lock.json
+scripts/

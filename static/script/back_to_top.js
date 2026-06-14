@@ -25,13 +25,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     backToTopBtn.addEventListener('click', function () {
-        if (window.lenis) {
-            window.lenis.scrollTo(0);
-        } else {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     });
 });
