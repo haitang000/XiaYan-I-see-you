@@ -10,6 +10,7 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "@vercel/functions": "^3.7.1"
   },
   "license": "GPL-3.0"
