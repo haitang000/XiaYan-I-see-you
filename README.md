@@ -36,6 +36,16 @@
 
 > **注意**：Vercel 部署时，`npm run build` 会自动扫描 `static/image/` 目录并生成 `photos.json`，无需手动操作。
 
+## 图片防盗链
+
+本站对 `/image/` 路径下的图片和图标启用了基于 `Referer` 的防盗链：
+
+- 拦截无 `Referer` 的请求，因此直接打开图片 URL 会返回 `403 Forbidden`。
+- 允许同域请求，以及 `xiayan.icu`、`*.xiayan.icu`、`xiayan.haitang000.top`、`*.xiayan.haitang000.top`、`localhost`、`127.0.0.1`。
+- 其他外站页面直接引用图片时会返回 `403 Forbidden`。
+- Docker/Nginx 部署使用 Nginx 原生规则；Vercel 部署使用 Routing Middleware，因此会产生少量边缘中间件调用。
+- 如果浏览器或代理隐藏 `Referer`，图片可能无法加载；这是严格防盗链策略的预期取舍。
+
 ## 将图片修改为自己喜欢的角色
 
 如果想要将图片修改为自己喜欢的角色，可以在`/static`目录中将图片替换，无需重命名, 正常运行命令后会自动排列照片。如果想要修改网站 Icon，可以在`/static`目录中将`logo.jpg`更换为自己喜欢的图片
